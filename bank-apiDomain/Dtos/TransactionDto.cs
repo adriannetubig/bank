@@ -1,6 +1,6 @@
 ﻿namespace bank_apiDomain.Dtos
 {
-    public sealed class CreateTransactionDto
+    public sealed class TransactionDto
     {
         public Guid? Id { get; init; }
         public string FromAccount { get; init; }

@@ -14,45 +14,70 @@ namespace bank_apiDomain.Entities
         public string Description { get; private set; }
 
         protected Transaction() { }
-        private Transaction(CreateTransactionDto createTransactionDto, Account fromAccount, Account toAccount, Customer customer)
+        private Transaction(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
         {
-            TransactionGuid = createTransactionDto.Id.Value;
-            Amount = createTransactionDto.Amount.Value;
-            TransactionDate = createTransactionDto.Date.Value;
-            Description = createTransactionDto.Description;
+            TransactionGuid = transactionDto.Id.Value;
+            Amount = transactionDto.Amount.Value;
+            TransactionDate = transactionDto.Date.Value;
+            Description = transactionDto.Description;
             FromAccount = fromAccount;
             ToAccount = toAccount;
             Customer = customer;
         }
 
-        public static Result<Transaction> Create(CreateTransactionDto createTransactionDto, Account fromAccount, Account toAccount, Customer customer)
+        public static Result<Transaction> Create(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
         {
-            if (createTransactionDto == null)
-                return Result.Failure<Transaction>("Transaction Required");
-            if (createTransactionDto.Owner == null)
-                return Result.Failure<Transaction>("Transaction Owner Required");
-            if (!createTransactionDto.Id.HasValue)
-                return Result.Failure<Transaction>("Transaction Id Required");
-            if (!createTransactionDto.Amount.HasValue)
-                return Result.Failure<Transaction>("Transaction Amount Required");
-            if (!createTransactionDto.Date.HasValue)
-                return Result.Failure<Transaction>("Transaction Date Required");
-            if (string.IsNullOrEmpty(createTransactionDto.FromAccount))
-                return Result.Failure<Transaction>("Transaction FromAccount Required");
-            if (string.IsNullOrEmpty(createTransactionDto.ToAccount))
-                return Result.Failure<Transaction>("Transaction ToAccount Required");
-            if (string.IsNullOrEmpty(createTransactionDto.Description))
-                return Result.Failure<Transaction>("Transaction Description Required");
+            var requiredFieldsResult = RequiredFields(transactionDto, fromAccount, toAccount, customer);
+            if (requiredFieldsResult.IsFailure)
+                return Result.Failure<Transaction>(requiredFieldsResult.Error);
+
+            return Result.Success(new Transaction(transactionDto, fromAccount, toAccount, customer));
+        }
+
+        public Result Update(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
+        {
+            var requiredFieldsResult = RequiredFields(transactionDto, fromAccount, toAccount, customer);
+            if (requiredFieldsResult.IsFailure)
+                return Result.Failure(requiredFieldsResult.Error);
+
+            TransactionGuid = transactionDto.Id.Value;
+            Amount = transactionDto.Amount.Value;
+            TransactionDate = transactionDto.Date.Value;
+            Description = transactionDto.Description;
+            FromAccount = fromAccount;
+            ToAccount = toAccount;
+            Customer = customer;
+
+            return Result.Success();
+        }
+
+        private static Result RequiredFields(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
+        {
+            if (transactionDto == null)
+                return Result.Failure("Transaction Required");
+            if (transactionDto.Owner == null)
+                return Result.Failure("Transaction Owner Required");
+            if (!transactionDto.Id.HasValue)
+                return Result.Failure("Transaction Id Required");
+            if (!transactionDto.Amount.HasValue)
+                return Result.Failure("Transaction Amount Required");
+            if (!transactionDto.Date.HasValue)
+                return Result.Failure("Transaction Date Required");
+            if (string.IsNullOrEmpty(transactionDto.FromAccount))
+                return Result.Failure("Transaction FromAccount Required");
+            if (string.IsNullOrEmpty(transactionDto.ToAccount))
+                return Result.Failure("Transaction ToAccount Required");
+            if (string.IsNullOrEmpty(transactionDto.Description))
+                return Result.Failure("Transaction Description Required");
 
             if (fromAccount == null)
-                return Result.Failure<Transaction>("FromAccount does not exist");
+                return Result.Failure("FromAccount does not exist");
             if (toAccount == null)
-                return Result.Failure<Transaction>("ToAccount does not exist");
+                return Result.Failure("ToAccount does not exist");
             if (customer == null)
-                return Result.Failure<Transaction>("Customer does not exist");
+                return Result.Failure("Customer does not exist");
 
-
-            return Result.Success(new Transaction(createTransactionDto, fromAccount, toAccount, customer));
+            return Result.Success();
         }
 
     }
