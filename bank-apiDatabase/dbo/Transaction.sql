@@ -5,7 +5,7 @@
 	[FromAccountId] BIGINT NOT NULL,
 	[ToAccountId] BIGINT NOT NULL,
 	[Amount] DECIMAL(19,4) NOT NULL,
-	[TransactionDateUtc] DATETIME NOT NULL,
+	[TransactionDate] DATETIME NOT NULL,
 	[CustomerId] BIGINT NOT NULL,
     [Description] VARCHAR(MAX) NOT NULL, 
 	[DateCreatedUtc] DATETIME NOT NULL,
