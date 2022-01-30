@@ -3,11 +3,14 @@ using bank_apiDomain.Entities;
 
 namespace bank_apiRepository.Interfaces
 {
-    interface ITransactionRepository
+    public interface ITransactionRepository
     {
         void Create(Transaction transaction);
         void Update(Transaction transaction);
+
         Transaction? RetrieveTransaction(Guid transactionGuid);
         IEnumerable<TransactionDto> RetrieveTransactions();
+        Account? RetrieveAccount(string accountNumber);
+        Customer? RetrieveCustomer(Guid customerGuid);
     }
 }

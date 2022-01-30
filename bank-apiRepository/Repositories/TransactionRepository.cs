@@ -34,5 +34,8 @@ namespace bank_apiRepository.Repositories
                     }
                 });
         }
+        public Account? RetrieveAccount(string accountNumber) => _bankApiContext.Accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
+        public Customer? RetrieveCustomer(Guid customerGuid) => _bankApiContext.Customers.FirstOrDefault(a => a.CustomerGuid == customerGuid);
+
     }
 }
