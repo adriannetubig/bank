@@ -1,9 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace bank_apiDomain.ValueObjects
 {
@@ -28,5 +23,7 @@ namespace bank_apiDomain.ValueObjects
 
             return Result.Success(new Name(first, last));
         }
+
+        public string FullName() => $"{First} {Last}";
     }
 }
