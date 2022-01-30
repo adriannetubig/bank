@@ -1,11 +1,12 @@
 ﻿using bank_apiDomain.Dtos;
 using bank_apiDomain.Entities;
 using bank_apiRepository.Interfaces;
+using bank_apiService.Interfaces;
 using CSharpFunctionalExtensions;
 
 namespace bank_apiService.Services
 {
-    public sealed class TransactionService
+    public sealed class TransactionService: ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
 
