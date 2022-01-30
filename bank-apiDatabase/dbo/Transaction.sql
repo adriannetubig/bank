@@ -7,6 +7,7 @@
 	[Amount] DECIMAL(19,4) NOT NULL,
 	[TransactionDateUtc] DATETIME NOT NULL,
 	[CustomerId] BIGINT NOT NULL,
+    [Description] VARCHAR(MAX) NOT NULL, 
 	[DateCreatedUtc] DATETIME NOT NULL,
 	[DateUpdatedUtc] DATETIME NULL,
     FOREIGN KEY ([FromAccountId]) REFERENCES [dbo].[Account] ([AccountId]),

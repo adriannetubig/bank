@@ -63,4 +63,7 @@
     <Build Include="dbo\Transaction.sql" />
     <Build Include="dbo\Account.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="bank-apiDatabase.refactorlog" />
+  </ItemGroup>
 </Project>
