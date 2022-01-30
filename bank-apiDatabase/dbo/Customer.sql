@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[Customer]
+(
+	[CustomerId] BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	[CustomerGuid] UNIQUEIDENTIFIER NOT NULL UNIQUE,
+	[FirstName] VARCHAR(50) NOT NULL,
+	[LastName] VARCHAR(50) NOT NULL,
+	[DateCreatedUtc] DATETIME NOT NULL,
+	[DateUpdatedUtc] DATETIME NULL
+)
