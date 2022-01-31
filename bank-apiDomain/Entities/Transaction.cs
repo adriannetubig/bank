@@ -1,5 +1,5 @@
 ﻿using bank_apiDomain.Dtos;
-using CSharpFunctionalExtensions;
+using bank_apiDomain.ValueObjects;
 
 namespace bank_apiDomain.Entities
 {
@@ -25,20 +25,20 @@ namespace bank_apiDomain.Entities
             Customer = customer;
         }
 
-        public static Result<Transaction> Create(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
+        public static ValidationResult<Transaction> Create(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
         {
             var requiredFieldsResult = RequiredFields(transactionDto, fromAccount, toAccount, customer);
             if (requiredFieldsResult.IsFailure)
-                return Result.Failure<Transaction>(requiredFieldsResult.Error);
+                return ValidationResult<Transaction>.Failure(requiredFieldsResult);
 
-            return Result.Success(new Transaction(transactionDto, fromAccount, toAccount, customer));
+            return ValidationResult<Transaction>.Success(new Transaction(transactionDto, fromAccount, toAccount, customer));
         }
 
-        public Result Update(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
+        public ValidationResult Update(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
         {
             var requiredFieldsResult = RequiredFields(transactionDto, fromAccount, toAccount, customer);
             if (requiredFieldsResult.IsFailure)
-                return Result.Failure(requiredFieldsResult.Error);
+                return ValidationResult.Failure(requiredFieldsResult);
 
             TransactionGuid = transactionDto.Id.Value;
             Amount = transactionDto.Amount.Value;
@@ -48,36 +48,36 @@ namespace bank_apiDomain.Entities
             ToAccount = toAccount;
             Customer = customer;
 
-            return Result.Success();
+            return ValidationResult.Success();
         }
 
-        private static Result RequiredFields(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
+        private static ValidationResult RequiredFields(TransactionDto transactionDto, Account fromAccount, Account toAccount, Customer customer)
         {
             if (transactionDto == null)
-                return Result.Failure("Transaction Required");
+                return ValidationResult.Failure("Transaction Required");
             if (transactionDto.Owner == null)
-                return Result.Failure("Transaction Owner Required");
+                return ValidationResult.Failure("Transaction Owner Required");
             if (!transactionDto.Id.HasValue)
-                return Result.Failure("Transaction Id Required");
+                return ValidationResult.Failure("Transaction Id Required");
             if (!transactionDto.Amount.HasValue)
-                return Result.Failure("Transaction Amount Required");
+                return ValidationResult.Failure("Transaction Amount Required");
             if (!transactionDto.Date.HasValue)
-                return Result.Failure("Transaction Date Required");
+                return ValidationResult.Failure("Transaction Date Required");
             if (string.IsNullOrEmpty(transactionDto.FromAccount))
-                return Result.Failure("Transaction FromAccount Required");
+                return ValidationResult.Failure("Transaction FromAccount Required");
             if (string.IsNullOrEmpty(transactionDto.ToAccount))
-                return Result.Failure("Transaction ToAccount Required");
+                return ValidationResult.Failure("Transaction ToAccount Required");
             if (string.IsNullOrEmpty(transactionDto.Description))
-                return Result.Failure("Transaction Description Required");
+                return ValidationResult.Failure("Transaction Description Required");
 
             if (fromAccount == null)
-                return Result.Failure("FromAccount does not exist");
+                return ValidationResult.Failure("FromAccount does not exist", ErrorTypes.NotFound);
             if (toAccount == null)
-                return Result.Failure("ToAccount does not exist");
+                return ValidationResult.Failure("ToAccount does not exist", ErrorTypes.NotFound);
             if (customer == null)
-                return Result.Failure("Customer does not exist");
+                return ValidationResult.Failure("Customer does not exist", ErrorTypes.NotFound);
 
-            return Result.Success();
+            return ValidationResult.Success();
         }
 
     }

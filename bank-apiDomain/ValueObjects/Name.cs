@@ -1,6 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-
-namespace bank_apiDomain.ValueObjects
+﻿namespace bank_apiDomain.ValueObjects
 {
     public class Name
     {
@@ -14,14 +12,14 @@ namespace bank_apiDomain.ValueObjects
             Last = last;
         }
 
-        public static Result<Name> Create(string first, string last)
+        public static ValidationResult<Name> Create(string first, string last)
         {
             if (string.IsNullOrEmpty(first))
-                return Result.Failure<Name>("First Name Required");
+                return ValidationResult<Name>.Failure("First Name Required");
             if (string.IsNullOrEmpty(last))
-                return Result.Failure<Name>("Last Name Required");
+                return ValidationResult<Name>.Failure("Last Name Required");
 
-            return Result.Success(new Name(first, last));
+            return ValidationResult<Name>.Success(new Name(first, last));
         }
     }
 }

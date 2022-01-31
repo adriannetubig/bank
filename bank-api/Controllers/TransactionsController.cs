@@ -22,7 +22,12 @@ namespace bank_api.Controllers
         {
             var createResult = _iTransactionService.Create(transactionDto);
             if (createResult.IsFailure)
-                return BadRequest(createResult.Error);
+            {
+                if (createResult.IsNotFound)
+                    return NotFound(createResult.Error);
+                else
+                    return BadRequest(createResult.Error);
+            }
             else
                 return new ObjectResult(null)
                 {
@@ -34,8 +39,14 @@ namespace bank_api.Controllers
         public IActionResult Update(Guid transactionId, TransactionDto transactionDto)
         {
             var updateResult = _iTransactionService.Update(transactionId, transactionDto);
+
             if (updateResult.IsFailure)
-                return BadRequest(updateResult.Error);
+            {
+                if (updateResult.IsNotFound)
+                    return NotFound(updateResult.Error);
+                else
+                    return BadRequest(updateResult.Error);
+            }
             else
                 return new ObjectResult(null)
                 {

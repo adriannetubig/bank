@@ -1,8 +1,8 @@
 ﻿using bank_apiDomain.Dtos;
 using bank_apiDomain.Entities;
+using bank_apiDomain.ValueObjects;
 using bank_apiRepository.Interfaces;
 using bank_apiService.Interfaces;
-using CSharpFunctionalExtensions;
 
 namespace bank_apiService.Services
 {
@@ -13,7 +13,7 @@ namespace bank_apiService.Services
         public TransactionService(ITransactionRepository transactionRepository) =>
             _transactionRepository = transactionRepository ?? throw new ArgumentNullException("ITransactionRepository Required");
 
-        public Result Create(TransactionDto transactionDto)
+        public ValidationResult Create(TransactionDto transactionDto)
         {
             //ToDo: check if this will still work if fields are null
             var fromAccount = _transactionRepository.RetrieveAccount(transactionDto.FromAccount);
@@ -28,7 +28,7 @@ namespace bank_apiService.Services
             return createResult;
         }
 
-        public Result Update(Guid transactionGuid, TransactionDto transactionDto) //ToDo: Handle missing transaction
+        public ValidationResult Update(Guid transactionGuid, TransactionDto transactionDto) //ToDo: Handle missing transaction
         {
             //ToDo: check if this will still work if fields are null
             var fromAccount = _transactionRepository.RetrieveAccount(transactionDto.FromAccount);

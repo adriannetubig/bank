@@ -1,9 +1,8 @@
-﻿using CSharpFunctionalExtensions;
-
-namespace bank_apiDomain.Entities
+﻿namespace bank_apiDomain.Entities
 {
-    public abstract class BaseEntity : Entity
+    public abstract class BaseEntity//Cross cutting concern
     {
+        public long Id { get; private set; }
         public DateTime DateCreatedUtc { get; private set; }
         public DateTime? DateUpdatedUtc { get; private set; }
 

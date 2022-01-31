@@ -1,12 +1,12 @@
 ﻿using bank_apiDomain.Dtos;
-using CSharpFunctionalExtensions;
+using bank_apiDomain.ValueObjects;
 
 namespace bank_apiService.Interfaces
 {
     public interface ITransactionService
     {
-        Result Create(TransactionDto transactionDto);
-        Result Update(Guid transactionGuid, TransactionDto transactionDto);
+        ValidationResult Create(TransactionDto transactionDto);
+        ValidationResult Update(Guid transactionGuid, TransactionDto transactionDto);
         IEnumerable<TransactionDto> RetrieveTransactions();
     }
 }
