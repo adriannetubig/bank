@@ -23,7 +23,5 @@ namespace bank_apiDomain.ValueObjects
 
             return Result.Success(new Name(first, last));
         }
-
-        public string FullName() => $"{First} {Last}";
     }
 }
