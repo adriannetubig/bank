@@ -33,7 +33,7 @@ namespace bank_apiService.Services
             //ToDo: check if this will still work if fields are null
             var fromAccount = _transactionRepository.RetrieveAccount(transactionDto.FromAccount);
             var toAccount = _transactionRepository.RetrieveAccount(transactionDto.ToAccount);
-            var customer = _transactionRepository.RetrieveCustomer(transactionDto.Owner.Id.Value);
+            var customer = _transactionRepository.RetrieveCustomer(transactionDto.Owner?.Id ?? Guid.Empty);
             var transaction = _transactionRepository.RetrieveTransaction(transactionGuid);
 
             var updateResult = transaction.Update(transactionDto, fromAccount, toAccount, customer);

@@ -69,6 +69,8 @@ namespace bank_apiDomain.Entities
                 return ValidationResult.Failure("Transaction ToAccount Required");
             if (string.IsNullOrEmpty(transactionDto.Description))
                 return ValidationResult.Failure("Transaction Description Required");
+            if (!transactionDto.Owner.Id.HasValue)
+                return ValidationResult.Failure("Transaction Owner Id Required");
 
             if (fromAccount == null)
                 return ValidationResult.Failure("FromAccount does not exist", ErrorTypes.NotFound);
