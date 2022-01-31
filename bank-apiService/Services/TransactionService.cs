@@ -15,10 +15,9 @@ namespace bank_apiService.Services
 
         public ValidationResult Create(TransactionDto transactionDto)
         {
-            //ToDo: check if this will still work if fields are null
             var fromAccount = _transactionRepository.RetrieveAccount(transactionDto.FromAccount);
             var toAccount = _transactionRepository.RetrieveAccount(transactionDto.ToAccount);
-            var customer = _transactionRepository.RetrieveCustomer(transactionDto.Owner.Id.Value);
+            var customer = _transactionRepository.RetrieveCustomer(transactionDto.Owner?.Id ?? Guid.Empty);
 
             var createResult = Transaction.Create(transactionDto, fromAccount, toAccount, customer);
 
@@ -30,7 +29,6 @@ namespace bank_apiService.Services
 
         public ValidationResult Update(Guid transactionGuid, TransactionDto transactionDto) //ToDo: Handle missing transaction
         {
-            //ToDo: check if this will still work if fields are null
             var fromAccount = _transactionRepository.RetrieveAccount(transactionDto.FromAccount);
             var toAccount = _transactionRepository.RetrieveAccount(transactionDto.ToAccount);
             var customer = _transactionRepository.RetrieveCustomer(transactionDto.Owner?.Id ?? Guid.Empty);
