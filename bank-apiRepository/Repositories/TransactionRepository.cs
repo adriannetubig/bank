@@ -30,7 +30,7 @@ namespace bank_apiRepository.Repositories
                     Owner = new CustomerDto
                     {
                         Id = a.Customer.CustomerGuid,
-                        Name = a.Customer.Name.FullName()//ToDo: Check if this will work
+                        Name = $"{a.Customer.Name.First} {a.Customer.Name.Last}"
                     }
                 });
         }
