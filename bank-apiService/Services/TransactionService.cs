@@ -39,7 +39,7 @@ namespace bank_apiService.Services
             var updateResult = transaction.Update(transactionDto, fromAccount, toAccount, customer);
 
             if (updateResult.IsSuccess)
-                _transactionRepository.Create(transaction);
+                _transactionRepository.Update(transaction);
 
             return updateResult;
         }

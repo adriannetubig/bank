@@ -10,8 +10,24 @@ namespace bank_apiRepository.Repositories
 
         public TransactionRepository(BankApiContext bankApiContext) => _bankApiContext = bankApiContext ?? throw new ArgumentNullException("BankApiContext Required");
 
-        public void Create(Transaction transaction) => _bankApiContext.Transactions.Add(transaction);
-        public void Update(Transaction transaction) => _bankApiContext.Transactions.Update(transaction);
+        public void Create(Transaction transaction)
+        {
+            _bankApiContext
+                .Transactions
+                .Add(transaction);
+
+            _bankApiContext
+                .SaveChanges();
+        }
+        public void Update(Transaction transaction)
+        {
+            _bankApiContext
+                .Transactions
+                .Update(transaction);
+
+            _bankApiContext
+                .SaveChanges();
+        }
 
         public Transaction? RetrieveTransaction(Guid transactionGuid) => _bankApiContext.Transactions.FirstOrDefault(a => a.TransactionGuid == transactionGuid);
         public IEnumerable<TransactionDto> RetrieveTransactions()

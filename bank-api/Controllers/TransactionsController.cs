@@ -33,9 +33,9 @@ namespace bank_api.Controllers
         [HttpPut("{transactionId}")]
         public IActionResult Update(Guid transactionId, TransactionDto transactionDto)
         {
-            var createResult = _iTransactionService.Update(transactionId, transactionDto);
-            if (createResult.IsFailure)
-                return BadRequest(createResult.Error);
+            var updateResult = _iTransactionService.Update(transactionId, transactionDto);
+            if (updateResult.IsFailure)
+                return BadRequest(updateResult.Error);
             else
                 return new ObjectResult(null)
                 {
