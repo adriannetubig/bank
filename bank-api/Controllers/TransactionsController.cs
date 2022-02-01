@@ -1,4 +1,5 @@
 ﻿using bank_apiDomain.Dtos;
+using bank_apiDomain.ValueObjects;
 using bank_apiService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -22,12 +23,7 @@ namespace bank_api.Controllers
         {
             var createResult = _iTransactionService.Create(transactionDto);
             if (createResult.IsFailure)
-            {
-                if (createResult.IsNotFound)
-                    return NotFound(createResult.Error);
-                else
-                    return BadRequest(createResult.Error);
-            }
+                return ErrorResult(createResult);
             else
                 return new ObjectResult(null)
                 {
@@ -41,17 +37,27 @@ namespace bank_api.Controllers
             var updateResult = _iTransactionService.Update(transactionId, transactionDto);
 
             if (updateResult.IsFailure)
-            {
-                if (updateResult.IsNotFound)
-                    return NotFound(updateResult.Error);
-                else
-                    return BadRequest(updateResult.Error);
-            }
+                return ErrorResult(updateResult);
             else
                 return new ObjectResult(null)
                 {
                     StatusCode = (int)HttpStatusCode.Created
                 };
+        }
+
+        private IActionResult ErrorResult(ValidationResult validationResult)
+        {
+            if (validationResult.IsNotFound)
+                return NotFound(validationResult.Error);
+            else if (validationResult.IsValidationError)
+                return BadRequest(validationResult.Error);
+            else if (validationResult.IsForbidden)
+                return new ObjectResult(validationResult.Error)
+                {
+                    StatusCode = (int)HttpStatusCode.Forbidden
+                };
+            else
+                return BadRequest(validationResult.Error);
         }
     }
 }

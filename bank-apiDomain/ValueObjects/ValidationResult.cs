@@ -7,6 +7,8 @@
         public string Error { get; private set; }
         public ErrorTypes ErrorType { get; private set; }
         public bool IsNotFound => ErrorType == ErrorTypes.NotFound;
+        public bool IsValidationError => ErrorType == ErrorTypes.Validation;
+        public bool IsForbidden => ErrorType == ErrorTypes.Forbidden;
 
         protected ValidationResult()
         {

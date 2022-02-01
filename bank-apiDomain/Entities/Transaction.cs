@@ -79,6 +79,9 @@ namespace bank_apiDomain.Entities
             if (customer == null)
                 return ValidationResult.Failure("Customer does not exist", ErrorTypes.NotFound);
 
+            if (fromAccount.Customer != customer)
+                return ValidationResult.Failure("Customer do not own the account", ErrorTypes.Forbidden);
+
             return ValidationResult.Success();
         }
 
