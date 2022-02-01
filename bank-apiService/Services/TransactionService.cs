@@ -29,10 +29,13 @@ namespace bank_apiService.Services
 
         public ValidationResult Update(Guid transactionGuid, TransactionDto transactionDto) //ToDo: Handle missing transaction
         {
+            var transaction = _transactionRepository.RetrieveTransaction(transactionGuid);
+            if (transaction == null)
+                return ValidationResult.Failure("Transaction does not exist", ErrorTypes.NotFound);
+
             var fromAccount = _transactionRepository.RetrieveAccount(transactionDto.FromAccount);
             var toAccount = _transactionRepository.RetrieveAccount(transactionDto.ToAccount);
             var customer = _transactionRepository.RetrieveCustomer(transactionDto.Owner?.Id ?? Guid.Empty);
-            var transaction = _transactionRepository.RetrieveTransaction(transactionGuid);
 
             var updateResult = transaction.Update(transactionDto, fromAccount, toAccount, customer);
 
