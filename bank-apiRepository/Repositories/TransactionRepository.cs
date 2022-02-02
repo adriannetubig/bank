@@ -56,6 +56,7 @@ namespace bank_apiRepository.Repositories
             .Include(a => a.Customer)
             .FirstOrDefault(a => a.AccountNumber == accountNumber);
         public Customer? RetrieveCustomer(Guid customerGuid) => _bankApiContext.Customers.FirstOrDefault(a => a.CustomerGuid == customerGuid);
+        public bool TransactionExists(Guid transactionGuid) => _bankApiContext.Transactions.Any(a => a.TransactionGuid == transactionGuid);
 
     }
 }

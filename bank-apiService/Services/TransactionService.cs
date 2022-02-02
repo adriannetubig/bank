@@ -15,9 +15,14 @@ namespace bank_apiService.Services
 
         public ValidationResult Create(TransactionDto transactionDto)
         {
+            var transactionGuid = transactionDto.Owner?.Id ?? Guid.Empty;
+
+            if (_transactionRepository.TransactionExists(transactionGuid))
+                return ValidationResult.Failure("Transaction already exists");
+
             var fromAccount = _transactionRepository.RetrieveAccount(transactionDto.FromAccount);
             var toAccount = _transactionRepository.RetrieveAccount(transactionDto.ToAccount);
-            var customer = _transactionRepository.RetrieveCustomer(transactionDto.Owner?.Id ?? Guid.Empty);
+            var customer = _transactionRepository.RetrieveCustomer(transactionGuid);
 
             var createResult = Transaction.Create(transactionDto, fromAccount, toAccount, customer);
 
@@ -27,7 +32,7 @@ namespace bank_apiService.Services
             return createResult;
         }
 
-        public ValidationResult Update(Guid transactionGuid, TransactionDto transactionDto) //ToDo: Handle missing transaction
+        public ValidationResult Update(Guid transactionGuid, TransactionDto transactionDto)
         {
             var transaction = _transactionRepository.RetrieveTransaction(transactionGuid);
             if (transaction == null)
