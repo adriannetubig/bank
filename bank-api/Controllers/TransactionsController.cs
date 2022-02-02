@@ -8,7 +8,7 @@ namespace bank_api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class TransactionsController : ControllerBase
+    public sealed class TransactionsController : ControllerBase
     {
         private readonly ITransactionService _iTransactionService;
 
