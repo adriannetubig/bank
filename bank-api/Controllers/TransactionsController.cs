@@ -39,10 +39,7 @@ namespace bank_api.Controllers
             if (updateResult.IsFailure)
                 return ErrorResult(updateResult);
             else
-                return new ObjectResult(null)
-                {
-                    StatusCode = (int)HttpStatusCode.Created
-                };
+                return Ok();
         }
 
         private IActionResult ErrorResult(ValidationResult validationResult)
