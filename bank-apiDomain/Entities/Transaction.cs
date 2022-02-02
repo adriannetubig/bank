@@ -48,6 +48,7 @@ namespace bank_apiDomain.Entities
             ToAccount = toAccount;
             Customer = customer;
 
+            Update();
             return ValidationResult.Success();
         }
 
