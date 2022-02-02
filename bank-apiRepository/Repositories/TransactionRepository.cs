@@ -57,6 +57,23 @@ namespace bank_apiRepository.Repositories
             .FirstOrDefault(a => a.AccountNumber == accountNumber);
         public Customer? RetrieveCustomer(Guid customerGuid) => _bankApiContext.Customers.FirstOrDefault(a => a.CustomerGuid == customerGuid);
         public bool TransactionExists(Guid transactionGuid) => _bankApiContext.Transactions.Any(a => a.TransactionGuid == transactionGuid);
+        public IEnumerable<CustomerDto> RetrieveCustomers()
+        {
+            return _bankApiContext
+                .Customers
+                .Select(a =>
+                new CustomerDto
+                {
+                    Id = a.CustomerGuid,
+                    Name = $"{a.Name.First} {a.Name.Last}"
+                });
+        }
+        public IEnumerable<string> RetrieveAccountNumbers() => _bankApiContext.Accounts.Select(a => a.AccountNumber);
+        public IEnumerable<string> RetrieveAccountNumbers(Guid customerGuid) =>
+            _bankApiContext
+            .Accounts
+            .Where(a => a.Customer.CustomerGuid == customerGuid)
+            .Select(a => a.AccountNumber);
 
     }
 }

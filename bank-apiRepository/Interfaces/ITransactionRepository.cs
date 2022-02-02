@@ -13,5 +13,8 @@ namespace bank_apiRepository.Interfaces
         Account? RetrieveAccount(string accountNumber);
         Customer? RetrieveCustomer(Guid customerGuid);
         bool TransactionExists(Guid transactionGuid);
+        IEnumerable<CustomerDto> RetrieveCustomers();
+        IEnumerable<string> RetrieveAccountNumbers();
+        IEnumerable<string> RetrieveAccountNumbers(Guid customerGuid);
     }
 }

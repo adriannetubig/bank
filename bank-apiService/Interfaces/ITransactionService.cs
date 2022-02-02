@@ -8,5 +8,8 @@ namespace bank_apiService.Interfaces
         ValidationResult Create(TransactionDto transactionDto);
         ValidationResult Update(Guid transactionGuid, TransactionDto transactionDto);
         IEnumerable<TransactionDto> RetrieveTransactions();
+        IEnumerable<CustomerDto> RetrieveCustomers();
+        IEnumerable<string> RetrieveAccountNumbers();
+        IEnumerable<string> RetrieveAccountNumbers(Guid customerGuid);
     }
 }

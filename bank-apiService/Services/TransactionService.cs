@@ -51,5 +51,8 @@ namespace bank_apiService.Services
         }
 
         public IEnumerable<TransactionDto> RetrieveTransactions() => _transactionRepository.RetrieveTransactions();
+        public IEnumerable<CustomerDto> RetrieveCustomers() => _transactionRepository.RetrieveCustomers();
+        public IEnumerable<string> RetrieveAccountNumbers() => _transactionRepository.RetrieveAccountNumbers();
+        public IEnumerable<string> RetrieveAccountNumbers(Guid customerGuid) => _transactionRepository.RetrieveAccountNumbers(customerGuid);
     }
 }
