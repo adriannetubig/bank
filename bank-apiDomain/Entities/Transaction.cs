@@ -82,6 +82,8 @@ namespace bank_apiDomain.Entities
 
             if (fromAccount.Customer != customer)
                 return ValidationResult.Failure("Customer do not own the account", ErrorTypes.Forbidden);
+            if (transactionDto.Amount <= 0)
+                return ValidationResult.Failure("Amount should be greater than 0", ErrorTypes.Forbidden);
 
             return ValidationResult.Success();
         }
